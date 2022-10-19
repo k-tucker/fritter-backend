@@ -51,7 +51,7 @@ const isValidQuoteFreetContent = (req: Request, res: Response, next: NextFunctio
 /**
  * Checks if the current user is the author of the quote freet whose quoteFreetId is in req.params
  */
-const isValidFreetModifier = async (req: Request, res: Response, next: NextFunction) => {
+const isValidQuoteFreetModifier = async (req: Request, res: Response, next: NextFunction) => {
   const quoteFreet = await QuoteFreetCollection.findOne(req.params.quoteFreetId);
   const userId = quoteFreet.authorId;
   if (req.session.userId !== userId.toString()) {
@@ -67,5 +67,5 @@ const isValidFreetModifier = async (req: Request, res: Response, next: NextFunct
 export {
   isValidQuoteFreetContent,
   isQuoteFreetExists,
-  isValidFreetModifier
+  isValidQuoteFreetModifier
 };
