@@ -229,6 +229,20 @@ This renders the `index.html` file that will be used to interact with the backen
 - `400` If the freet content is empty or a stream of empty spaces
 - `413` If the freet content is more than 140 characters long
 
+#### `POST /api/notif` - Notify user of activity
+
+**Body**
+
+- `userId` _{string}_ - ID of the user causing the notification
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+
 #### `DELETE /api/freets/:freetId?` - Delete an existing freet
 
 **Returns**
@@ -259,6 +273,73 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not the author of the freet
 - `400` if the new freet content is empty or a stream of empty spaces
 - `413` if the new freet content is more than 140 characters long
+
+#### `GET /api/quotes` - Get all the quote freets
+
+**Returns**
+
+- An array of all quote freets sorted in descending order by date modified
+
+#### `GET /api/quotes?author=USERNAME` - Get quote freets by author
+
+**Returns**
+
+- An array of quote freets created by user with username `author`
+
+**Throws**
+
+- `400` if `author` is not given
+- `404` if `author` is not a recognized username of any user
+
+#### `POST /api/quotes` - Create a new quote freet
+
+**Body**
+
+- `content` _{string}_ - The content of the quote freet
+- `freetId` _{string}_ - The original freet
+- `anon` _{boolean}_ - Whether to anonymize original freet
+
+**Returns**
+
+- A success message
+- A object with the created quote freet
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` If the quote freet content is empty or a stream of empty spaces
+- `413` If the quote freet content is more than 140 characters long
+
+#### `DELETE /api/quotes/:freetId?` - Delete an existing quote freet
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `403` if the user is not the author of the quote freet
+- `404` if the freetId is invalid
+
+#### `PUT /api/quotes/:freetId?` - Update an existing quote freet
+
+**Body**
+
+- `content` _{string}_ - The new content of the quote freet
+
+**Returns**
+
+- A success message
+- An object with the updated quote freet
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `403` if the user is not the author of the quote freet
+- `400` if the new quote freet content is empty or a stream of empty spaces
+- `413` if the new quote freet content is more than 140 characters long
 
 #### `POST /api/users/session` - Sign in user
 
@@ -324,6 +405,20 @@ This renders the `index.html` file that will be used to interact with the backen
 - `400` if username or password is in the wrong format
 - `409` if the username is already in use
 
+#### `PUT /api/fritform` - Update FritForm fields
+
+**Body** _(no need to add fields that are not being changed)_
+
+- `field` _{string}_ - The field being added
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+
 #### `DELETE /api/users` - Delete user
 
 **Returns**
@@ -333,3 +428,32 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+#### `POST /api/like` - Like a post
+
+**Body**
+
+- `freetId` _{string}_ - freet being liked
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+
+#### `DELETE /api/like` - Unlike a post
+
+**Body**
+
+- `freetId` _{string}_ - freet being unliked
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `409` post is not already liked
