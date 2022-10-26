@@ -1,17 +1,17 @@
 import type {Request, Response, NextFunction} from 'express';
 import {Types} from 'mongoose';
-import QuoteFreetCollection from '../quoteFreet/collection';
+import QuoteCollection from './collection';
 
 /**
  * Checks if a quote freet with quoteFreetId is req.params exists
  */
-const isQuoteFreetExists = async (req: Request, res: Response, next: NextFunction) => {
+const isQuoteExists = async (req: Request, res: Response, next: NextFunction) => {
   const validFormat = Types.ObjectId.isValid(req.params.freetId);
-  const quoteFreet = validFormat ? await QuoteFreetCollection.findOne(req.params.freetId) : '';
-  if (!quoteFreet) {
+  const quote = validFormat ? await QuoteCollection.findOne(req.params.freetId) : '';
+  if (!quote) {
     res.status(404).json({
       error: {
-        freetNotFound: `Quote freet with ID ${req.params.quoteFreetId} does not exist.`
+        freetNotFound: `Quote freet with ID ${req.params.quoteId} does not exist.`
       }
     });
     return;
@@ -24,7 +24,7 @@ const isQuoteFreetExists = async (req: Request, res: Response, next: NextFunctio
  * Checks if the content of the quote freet in req.body is valid, i.e not a stream of empty
  * spaces and not more than 140 characters
  */
-const isValidQuoteFreetContent = (req: Request, res: Response, next: NextFunction) => {
+const isValidQuoteContent = (req: Request, res: Response, next: NextFunction) => {
   if (!req.body.content) {
     next();
     return;
@@ -51,9 +51,9 @@ const isValidQuoteFreetContent = (req: Request, res: Response, next: NextFunctio
 /**
  * Checks if the current user is the author of the quote freet whose quoteFreetId is in req.params
  */
-const isValidQuoteFreetModifier = async (req: Request, res: Response, next: NextFunction) => {
-  const quoteFreet = await QuoteFreetCollection.findOne(req.params.quoteFreetId);
-  const userId = quoteFreet.authorId;
+const isValidQuoteModifier = async (req: Request, res: Response, next: NextFunction) => {
+  const quote = await QuoteCollection.findOne(req.params.quoteId);
+  const userId = quote.authorId;
   if (req.session.userId !== userId.toString()) {
     res.status(403).json({
       error: 'Cannot modify other users\' quote freets.'
@@ -65,7 +65,7 @@ const isValidQuoteFreetModifier = async (req: Request, res: Response, next: Next
 };
 
 export {
-  isValidQuoteFreetContent,
-  isQuoteFreetExists,
-  isValidQuoteFreetModifier
+  isValidQuoteContent,
+  isQuoteExists,
+  isValidQuoteModifier
 };

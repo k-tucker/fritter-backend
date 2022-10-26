@@ -71,9 +71,6 @@ class FreetCollection {
    */
   static async updateOne(freetId: Types.ObjectId | string, freetDetails: any): Promise<HydratedDocument<Freet>> {
     const freet = await FreetModel.findOne({_id: freetId});
-    if (freetDetails.views) {
-      freet.views += 1;
-    }
 
     if (freetDetails.content) {
       freet.content = freetDetails.content as string;

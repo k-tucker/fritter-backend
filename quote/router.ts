@@ -1,8 +1,8 @@
 import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
-import QuoteFreetCollection from './collection';
+import QuoteCollection from './collection';
 import * as userValidator from '../user/middleware';
-import * as quoteFreetValidator from '../quoteFreet/middleware';
+import * as quoteValidator from './middleware';
 import * as util from './util';
 
 const router = express.Router();
@@ -12,7 +12,7 @@ const router = express.Router();
  *
  * @name GET /api/quotes
  *
- * @return {QuoteFreetResponse[]} - A list of all the quote freets sorted in descending
+ * @return {QuoteResponse[]} - A list of all the quote freets sorted in descending
  *                      order by date modified
  */
 /**
@@ -20,7 +20,7 @@ const router = express.Router();
  *
  * @name GET /api/quotes?authorId=id
  *
- * @return {QuoteFreetResponse[]} - An array of quote freets created by user with id, authorId
+ * @return {QuoteResponse[]} - An array of quote freets created by user with id, authorId
  * @throws {400} - If authorId is not given
  * @throws {404} - If no user has given authorId
  *
@@ -34,16 +34,16 @@ router.get(
       return;
     }
 
-    const allQuoteFreets = await QuoteFreetCollection.findAll();
-    const response = allQuoteFreets.map(util.constructQuoteFreetResponse);
+    const allQuote = await QuoteCollection.findAll();
+    const response = allQuote.map(util.constructQuoteResponse);
     res.status(200).json(response);
   },
   [
     userValidator.isAuthorExists
   ],
   async (req: Request, res: Response) => {
-    const authorQuoteFreets = await QuoteFreetCollection.findAllByUsername(req.query.author as string);
-    const response = authorQuoteFreets.map(util.constructQuoteFreetResponse);
+    const authorQuotes = await QuoteCollection.findAllByUsername(req.query.author as string);
+    const response = authorQuotes.map(util.constructQuoteResponse);
     res.status(200).json(response);
   }
 );
@@ -56,7 +56,7 @@ router.get(
  * @param {string} content - The content of the quote freet
  * @param {string} freetId - ID of the original freet
  * @param {string} anon - whether or not to anonymize
- * @return {QuoteFreetResponse} - The created quote freet
+ * @return {QuoteResponse} - The created quote freet
  * @throws {403} - If the user is not logged in
  * @throws {400} - If the freet content is empty or a stream of empty spaces
  * @throws {413} - If the freet content is more than 140 characters long
@@ -65,15 +65,15 @@ router.post(
   '/',
   [
     userValidator.isUserLoggedIn,
-    quoteFreetValidator.isValidQuoteFreetContent
+    quoteValidator.isValidQuoteContent
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-    const quoteFreet = await QuoteFreetCollection.addOne(userId, req.body.freetId, req.body.content, req.body.anon);
+    const quote = await QuoteCollection.addOne(userId, req.body.freetId, req.body.content, req.body.anon);
 
     res.status(201).json({
       message: 'Your freet was created successfully.',
-      freet: util.constructQuoteFreetResponse(quoteFreet)
+      freet: util.constructQuoteResponse(quote)
     });
   }
 );
@@ -92,11 +92,11 @@ router.delete(
   '/:freetId?',
   [
     userValidator.isUserLoggedIn,
-    quoteFreetValidator.isQuoteFreetExists,
-    quoteFreetValidator.isValidQuoteFreetModifier
+    quoteValidator.isQuoteExists,
+    quoteValidator.isValidQuoteModifier
   ],
   async (req: Request, res: Response) => {
-    await QuoteFreetCollection.deleteOne(req.params.freetId);
+    await QuoteCollection.deleteOne(req.params.freetId);
     res.status(200).json({
       message: 'Your freet was deleted successfully.'
     });
@@ -120,17 +120,17 @@ router.put(
   '/:freetId?',
   [
     userValidator.isUserLoggedIn,
-    quoteFreetValidator.isQuoteFreetExists,
-    quoteFreetValidator.isValidQuoteFreetModifier,
-    quoteFreetValidator.isValidQuoteFreetContent
+    quoteValidator.isQuoteExists,
+    quoteValidator.isValidQuoteModifier,
+    quoteValidator.isValidQuoteContent
   ],
   async (req: Request, res: Response) => {
-    const freet = await QuoteFreetCollection.updateOne(req.params.freetId, req.body);
+    const quote = await QuoteCollection.updateOne(req.params.quoteId, req.body);
     res.status(200).json({
       message: 'Your freet was updated successfully.',
-      freet: util.constructQuoteFreetResponse(freet)
+      freet: util.constructQuoteResponse(quote)
     });
   }
 );
 
-export {router as freetRouter};
+export {router as quoteRouter};

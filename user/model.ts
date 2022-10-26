@@ -12,6 +12,10 @@ export type User = {
   username: string;
   password: string;
   dateJoined: Date;
+  following: Set<User>;
+  freets: Set<Types.ObjectId>;
+  quotes: Set<Types.ObjectId>;
+  highlights: Map<Types.ObjectId, string>;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -31,6 +35,26 @@ const UserSchema = new Schema({
   // The date the user joined
   dateJoined: {
     type: Date,
+    required: true
+  },
+  // All Users followed by this User
+  following: {
+    type: Set,
+    required: true
+  },
+  // All IDs of Freets this User has authored
+  freets: {
+    type: Set,
+    required: true
+  },
+  // All IDs of Quote Freets this User has authored
+  quotes: {
+    type: Set,
+    required: true
+  },
+  // All IDs of posts this User has highlighted (denotes what tyoe of post)
+  highlights: {
+    type: Map,
     required: true
   }
 });

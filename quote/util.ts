@@ -1,16 +1,15 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
-import type {QuoteFreet} from '../quoteFreet/model';
+import type {Quote} from './model';
 
 // Update this if you add a property to the Freet type!
-type QuoteFreetResponse = {
+type QuoteResponse = {
   _id: string;
-  freetId: string;
+  refId: string;
   authorId: string;
   dateCreated: string;
   content: string;
   dateModified: string;
-  views: number;
   anon: boolean;
 };
 
@@ -26,26 +25,27 @@ const formatDate = (date: Date): string => moment(date).format('MMMM Do YYYY, h:
  * Transform a raw Freet object from the database into an object
  * with all the information needed by the frontend
  *
- * @param {HydratedDocument<QuoteFreet>} freet - A freet
- * @returns {QuoteFreetResponse} - The freet object formatted for the frontend
+ * @param {HydratedDocument<Quote>} quote - A freet
+ * @returns {QuoteResponse} - The freet object formatted for the frontend
  */
-const constructQuoteFreetResponse = (quoteFreet: HydratedDocument<QuoteFreet>): QuoteFreetResponse => {
-  const quoteFreetCopy: QuoteFreet = {
-    ...quoteFreet.toObject({
+const constructQuoteResponse = (quote: HydratedDocument<Quote>): QuoteResponse => {
+  const quoteCopy: Quote = {
+    ...quote.toObject({
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
 
   return {
-    ...quoteFreetCopy,
-    _id: quoteFreetCopy._id.toString(),
-    freetId: quoteFreetCopy.freetId.toString(),
-    authorId: quoteFreetCopy.authorId.toString(),
-    dateCreated: formatDate(quoteFreet.dateCreated),
-    dateModified: formatDate(quoteFreet.dateModified)
+    ...quoteCopy,
+    _id: quoteCopy._id.toString(),
+    refId: quoteCopy.refId.toString(),
+    authorId: quoteCopy.authorId.toString(),
+    dateCreated: formatDate(quote.dateCreated),
+    dateModified: formatDate(quote.dateModified),
+    anon: quoteCopy.anon
   };
 };
 
 export {
-  constructQuoteFreetResponse
+  constructQuoteResponse
 };
