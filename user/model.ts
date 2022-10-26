@@ -39,17 +39,17 @@ const UserSchema = new Schema({
   },
   // All Users followed by this User
   following: {
-    type: Set,
+    type: Array,
     required: true
   },
   // All IDs of Freets this User has authored
   freets: {
-    type: Set,
+    type: Array,
     required: true
   },
   // All IDs of Quote Freets this User has authored
   quotes: {
-    type: Set,
+    type: Array,
     required: true
   },
   // All IDs of posts this User has highlighted (denotes what tyoe of post)

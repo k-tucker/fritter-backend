@@ -78,6 +78,47 @@
             <input type="submit" value="View All Freets">
           </form>
 
+        <form id="view-all-highlights">
+          <h3>View All Highlighted Freets by Author</h3>
+          <div>
+            <label for="author">Author:</label>
+            <input id="author" name="author">
+          </div>
+          <input type="submit" value="View All Highlighted Freets by Author">
+        </form>
+
+        <form id="create-fritform">
+          <h3>Create a FritForm</h3>
+          <div>
+            <label for="fields">Fields (separated by commas):</label>
+            <textarea id="fields" name="fields"></textarea>
+          </div>
+          <input type="submit" value="Create a Fritform">
+        </form>
+
+        <form id="edit-fritform">
+          <h3>Edit Your FritForm</h3>
+          <div>
+            <label for="fields">Fields (separated by commas):</label>
+            <textarea id="fields" name="fields"></textarea>
+          </div>
+          <input type="submit" value="Edit Your Fritform">
+        </form>
+
+        <form id="delete-fritform">
+          <h3>Delete Your FritForm</h3>
+          <input type="submit" value="Delete Your FritForm">
+        </form>
+
+        <form id="view-fritform">
+          <h3>View FritForm by Author</h3>
+          <div>
+            <label for="author">Author:</label>
+            <input id="author" name="author">
+          </div>
+          <input type="submit" value="View FritForm by Author">
+        </form>
+
         <form id="view-freets-by-author">
           <h3>View Freets By Author</h3>
           <div>
@@ -109,15 +150,6 @@
           <input type="submit" value="Edit Freet">
         </form>
 
-        <form id="view-freet">
-          <h3>Increment Views on Freet</h3>
-          <div>
-            <label for="id">ID:</label>
-            <input id="id" name="id">
-          </div>
-          <input type="submit" value="Increment Views on Freet">
-        </form>
-
         <form id="delete-freet">
           <h3>Delete Freet</h3>
           <div>
@@ -125,6 +157,85 @@
             <input id="id" name="id">
           </div>
           <input type="submit" value="Delete Freet">
+        </form>
+
+        <form id="create-quote">
+          <h3>Create Quote Freet</h3>
+          <div>
+            <label for="id">ID of Referenced Freet:</label>
+            <input id="id" name="id">
+          </div>
+          <div>
+            <label for="content">Content:</label>
+            <textarea id="content" name="content"></textarea>
+          </div>
+          <div>
+            <label for="anon">Anonymize? (true or false):</label>
+            <textarea id="anon" name="anon"></textarea>
+          </div>
+          <input type="submit" value="Create Quote Freet">
+        </form>
+
+        <form id="edit-quote">
+          <h3>Edit Quote Freet</h3>
+          <div>
+            <label for="id">ID:</label>
+            <input id="id" name="id">
+          </div>
+          <div>
+            <label for="content">Content:</label>
+            <textarea id="content" name="content"></textarea>
+          </div>
+          <div>
+            <label for="anon">Anonymize? (true or false):</label>
+            <textarea id="anon" name="anon"></textarea>
+          </div>
+          <input type="submit" value="Edit Quote Freet">
+        </form>
+
+        <form id="delete-quote">
+          <h3>Delete Quote Freet</h3>
+          <div>
+            <label for="id">ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Delete Quote Freet">
+        </form>
+
+        <form id="create-highlight">
+          <h3>Highlight Post</h3>
+          <div>
+            <label for="id">ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Highlight Post">
+        </form>
+
+        <form id="delete-highlight">
+          <h3>Un-Highlight Post</h3>
+          <div>
+            <label for="id">ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Un-Highlight Post">
+        </form>
+
+        <form id="create-like">
+          <h3>Like Post</h3>
+          <div>
+            <label for="id">ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Like Post">
+        </form>
+
+        <form id="delete-like">
+          <h3>Unlike Post</h3>
+          <div>
+            <label for="id">ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Unlike Post">
         </form>
       </div>
     </section>
