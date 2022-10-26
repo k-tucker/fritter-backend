@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
+// const {createImmediatelyInvokedArrowFunction} = require('typescript');
+
 // Show an object on the screen.
 function showObject(obj) {
   const pre = document.getElementById('response');
@@ -38,11 +40,23 @@ const formsAndHandlers = {
   'sign-in': signIn,
   'sign-out': signOut,
   'view-all-freets': viewAllFreets,
+  'view-freet': viewFreet,
+  'view-all-highlights': viewAllHighlights,
+  'create-fritform': createFritForm,
+  'edit-fritform': editFritForm,
+  'delete-fritform': deleteFritForm,
+  'view-fritform': viewFritForm,
   'view-freets-by-author': viewFreetsByAuthor,
   'create-freet': createFreet,
   'edit-freet': editFreet,
   'delete-freet': deleteFreet,
-  'view-freet': viewFreet // Add to formsAndHandlers to interact with on frontend
+  'create-quote': createQuote,
+  'edit-quote': editQuote,
+  'delete-quote': deleteQuote,
+  'create-highlight': createHighlight,
+  'delete-highlight': deleteHighlight,
+  'create-like': createLike,
+  'delete-like': deleteLike
 };
 
 // Attach handlers to forms
