@@ -1,9 +1,6 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {Like} from './model';
 import LikeModel from '../like/model';
-import UserCollection from '../user/collection';
-import FreetCollection from '../freet/collection';
-import QuoteCollection from '../quote/collection';
 
 /**
  * This file contains a class with functionality to interact with Likes stored
@@ -20,16 +17,12 @@ class LikeCollection {
    * @return {Promise<HydratedDocument<Like>>} - The newly created Like
    */
   static async addOne(userId: string, postId: string, postType: string): Promise<HydratedDocument<Like>> {
-    const user = await UserCollection.findOneByUserId(userId);
-    let post;
-    if (postType === 'Freet') {
-      post = await FreetCollection.findOne(postId);
-    } else {
-      post = await QuoteCollection.findOne(postId);
-    }
-
-    const like = new LikeModel(user._id, post._id, postType);
-    await like.save(); // Saves user to MongoDB
+    const like = new LikeModel({
+      liker: userId,
+      liked: postId,
+      postType
+    });
+    await like.save(); // Saves like to MongoDB
     return like;
   }
 
@@ -41,6 +34,18 @@ class LikeCollection {
    */
   static async findOneByLikeId(likeId: Types.ObjectId | string): Promise<HydratedDocument<Like>> {
     return LikeModel.findOne({_id: likeId});
+  }
+
+  /**
+   * Find a Like by likeId.
+   *
+   * @param {string} postId - The ID of the liked post
+   * @param {string} postType - whether the post is a Freet or Quote
+   * @param {string} userId - user who made the like
+   * @return {Promise<HydratedDocument<Like>> | Promise<null>}
+   */
+  static async findOneByLikedPost(postId: Types.ObjectId | string, postType: string, userId: string): Promise<HydratedDocument<Like>> {
+    return LikeModel.findOne({liked: postId, postType, liker: userId});
   }
 
   /**

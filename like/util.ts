@@ -1,12 +1,12 @@
-import type {HydratedDocument} from 'mongoose';
+import type {HydratedDocument, Types} from 'mongoose';
 import moment from 'moment';
-import type {User} from './model';
+import type {Like} from './model';
 
-// Update this if you add a property to the User type!
-type UserResponse = {
+type LikeResponse = {
   _id: string;
-  username: string;
-  dateJoined: string;
+  liker: string;
+  liked: string;
+  postType: string;
 };
 
 /**
@@ -18,27 +18,28 @@ type UserResponse = {
 const formatDate = (date: Date): string => moment(date).format('MMMM Do YYYY, h:mm:ss a');
 
 /**
- * Transform a raw User object from the database into an object
+ * Transform a raw Like object from the database into an object
  * with all the information needed by the frontend
- * (in this case, removing the password for security)
  *
- * @param {HydratedDocument<User>} user - A user object
- * @returns {UserResponse} - The user object without the password
+ * @param {HydratedDocument<Like>} like - A like object
+ * @returns {LikeResponse} - The like object
  */
-const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
-  const userCopy: User = {
-    ...user.toObject({
+const constructLikeResponse = (like: HydratedDocument<Like>): LikeResponse => {
+  const likeCopy: Like = {
+    ...like.toObject({
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  delete userCopy.password;
+
   return {
-    ...userCopy,
-    _id: userCopy._id.toString(),
-    dateJoined: formatDate(user.dateJoined)
+    ...likeCopy,
+    _id: likeCopy._id.toString(),
+    liker: likeCopy.liker.toString(),
+    liked: likeCopy.liked.toString(),
+    postType: likeCopy.postType.toString()
   };
 };
 
 export {
-  constructUserResponse
+  constructLikeResponse
 };

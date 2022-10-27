@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 /**
  * Fields is an object mapping the names of the form inputs to the values typed in
  * e.g. for createUser, fields has properites 'username' and 'password'
  */
+
+// const { HighlightSpanKind } = require("typescript");
 
 function createUser(fields) {
   fetch('/api/users', {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
@@ -33,8 +38,26 @@ function signIn(fields) {
     .catch(showResponse);
 }
 
-function signOut() {
+function signOut(fields) {
   fetch('/api/users/session', {method: 'DELETE'})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function viewAllHighlights(fields) {
+  fetch('/api/users/highlights')
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function createHighlight(fields) {
+  fetch('/api/users/highlights', {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function deleteHighlight(fields) {
+  fetch(`/api/users/highlights/${fields.id}`, {method: 'DELETE'})
     .then(showResponse)
     .catch(showResponse);
 }

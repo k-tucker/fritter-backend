@@ -1,4 +1,4 @@
-import {Types} from 'mongoose';
+import type {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
 
 /**
@@ -11,8 +11,8 @@ import {Schema, model} from 'mongoose';
 // Type definition for Like on the backend
 export type Like = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  liker: Types.ObjectId;
-  liked: Types.ObjectId;
+  liker: string;
+  liked: string;
   postType: string;
 };
 
@@ -22,15 +22,14 @@ export type Like = {
 const LikeSchema = new Schema({
   // The user doing the like
   liker: {
-    type: Types.ObjectId,
+    type: String,
     required: true
   },
   // The ID of the item being liked
   liked: {
-    type: Set,
+    type: String,
     required: true
   },
-  // The type of post being liked
   postType: {
     type: String,
     required: true

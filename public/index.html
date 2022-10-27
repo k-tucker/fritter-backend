@@ -76,7 +76,7 @@
         <form id="view-all-freets">
             <h3>View All Freets</h3>
             <input type="submit" value="View All Freets">
-          </form>
+        </form>
 
         <form id="view-freet">
           <h3>View Freet</h3>
@@ -117,15 +117,6 @@
         <form id="delete-fritform">
           <h3>Delete Your FritForm</h3>
           <input type="submit" value="Delete Your FritForm">
-        </form>
-
-        <form id="view-fritform">
-          <h3>View FritForm by Author</h3>
-          <div>
-            <label for="author">Author:</label>
-            <input id="author" name="author">
-          </div>
-          <input type="submit" value="View FritForm by Author">
         </form>
 
         <form id="view-freets-by-author">
@@ -211,6 +202,20 @@
           <input type="submit" value="Delete Quote Freet">
         </form>
 
+        <form id="view-all-quotes">
+          <h3>View All Quotes</h3>
+          <input type="submit" value="View All Quotes">
+        </form>
+
+        <form id="view-quotes-by-author">
+          <h3>View Quotes By Author</h3>
+          <div>
+            <label for="author">Author:</label>
+            <input id="author" name="author">
+          </div>
+          <input type="submit" value="View Quotes By Author">
+        </form>
+
         <form id="create-highlight">
           <h3>Highlight Post</h3>
           <div>
@@ -232,8 +237,12 @@
         <form id="create-like">
           <h3>Like Post</h3>
           <div>
-            <label for="id">ID:</label>
-            <input id="id" name="id">
+            <label for="postid">ID:</label>
+            <input id="postid" name="postid">
+          </div>
+          <div>
+            <label for="posttype">Post Type (Freet or Quote):</label>
+            <input id="posttype" name="posttype">
           </div>
           <input type="submit" value="Like Post">
         </form>
@@ -241,8 +250,12 @@
         <form id="delete-like">
           <h3>Unlike Post</h3>
           <div>
-            <label for="id">ID:</label>
-            <input id="id" name="id">
+            <label for="postid">ID:</label>
+            <input id="postid" name="postid">
+          </div>
+          <div>
+            <label for="posttype">Post Type (Freet or Quote):</label>
+            <input id="posttype" name="posttype">
           </div>
           <input type="submit" value="Unlike Post">
         </form>
