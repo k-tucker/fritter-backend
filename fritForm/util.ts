@@ -1,12 +1,12 @@
-import type {HydratedDocument} from 'mongoose';
+import type {HydratedDocument, Types} from 'mongoose';
 import moment from 'moment';
-import type {User} from './model';
+import type {FritForm} from './model';
 
 // Update this if you add a property to the User type!
-type UserResponse = {
+type FritFormResponse = {
   _id: string;
-  username: string;
-  dateJoined: string;
+  userId: string;
+  fields: string[];
 };
 
 /**
@@ -22,23 +22,23 @@ const formatDate = (date: Date): string => moment(date).format('MMMM Do YYYY, h:
  * with all the information needed by the frontend
  * (in this case, removing the password for security)
  *
- * @param {HydratedDocument<User>} user - A user object
- * @returns {UserResponse} - The user object without the password
+ * @param {HydratedDocument<FritForm>} fritform - A user object
+ * @returns {FritFormResponse} - The user object without the password
  */
-const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
-  const userCopy: User = {
-    ...user.toObject({
+const constructFritFormResponse = (fritform: HydratedDocument<FritForm>): FritFormResponse => {
+  const fritformCopy: FritForm = {
+    ...fritform.toObject({
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  delete userCopy.password;
   return {
-    ...userCopy,
-    _id: userCopy._id.toString(),
-    dateJoined: formatDate(user.dateJoined)
+    ...fritformCopy,
+    _id: fritformCopy._id.toString(),
+    userId: fritformCopy.userId,
+    fields: fritformCopy.fields
   };
 };
 
 export {
-  constructUserResponse
+  constructFritFormResponse
 };

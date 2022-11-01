@@ -27,6 +27,7 @@ class FreetCollection {
       content,
       dateModified: date
     });
+    await UserCollection.addFreet(authorId, freet._id); // Associate freet with user on user-side
     await freet.save(); // Saves freet to MongoDB
     return freet;
   }
@@ -52,7 +53,7 @@ class FreetCollection {
   }
 
   /**
-   * Get all the freets in by given author
+   * Get all the freets by given author
    *
    * @param {string} username - The username of author of the freets
    * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
@@ -88,6 +89,8 @@ class FreetCollection {
    * @return {Promise<Boolean>} - true if the freet has been deleted, false otherwise
    */
   static async deleteOne(freetId: Types.ObjectId | string): Promise<boolean> {
+    const freetTBD = await FreetCollection.findOne(freetId);
+    await UserCollection.deleteFreet(freetTBD.authorId, freetId);
     const freet = await FreetModel.deleteOne({_id: freetId});
     return freet !== null;
   }
@@ -99,6 +102,7 @@ class FreetCollection {
    */
   static async deleteMany(authorId: Types.ObjectId | string): Promise<void> {
     await FreetModel.deleteMany({authorId});
+    await UserCollection.deleteManyFreet(authorId);
   }
 }
 

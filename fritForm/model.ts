@@ -1,4 +1,4 @@
-import {Types} from 'mongoose';
+import type {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
 
 /**
@@ -8,9 +8,9 @@ import {Schema, model} from 'mongoose';
 
 // Type definition for FritForm on the backend
 export type FritForm = {
-  _id: Types.ObjectId;
-  userId: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  fields: Set<string>;
+  _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
+  userId: string;
+  fields: string[];
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -19,12 +19,12 @@ export type FritForm = {
 const FritFormSchema = new Schema({
   // The user associated with this FritForm
   userId: {
-    type: Types.ObjectId,
+    type: String,
     required: true
   },
   // The fields associated with this FritForm
   fields: {
-    type: Set,
+    type: Array,
     required: true
   }
 });

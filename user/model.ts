@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 import type {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
 
@@ -12,10 +13,11 @@ export type User = {
   username: string;
   password: string;
   dateJoined: Date;
-  following: Set<User>;
-  freets: Set<Types.ObjectId>;
-  quotes: Set<Types.ObjectId>;
-  highlights: Map<Types.ObjectId, string>;
+  following: string[];
+  freets: string[];
+  quotes: string[];
+  highlights: string[];
+  // highlights: Set<Types.ObjectId>;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -54,7 +56,7 @@ const UserSchema = new Schema({
   },
   // All IDs of posts this User has highlighted (denotes what tyoe of post)
   highlights: {
-    type: Map,
+    type: Array,
     required: true
   }
 });

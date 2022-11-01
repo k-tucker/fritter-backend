@@ -54,7 +54,7 @@ router.get(
  * @name POST /api/quotes
  *
  * @param {string} content - The content of the quote freet
- * @param {string} freetId - ID of the original freet
+ * @param {string} refId - ID of the original freet
  * @param {string} anon - whether or not to anonymize
  * @return {QuoteResponse} - The created quote freet
  * @throws {403} - If the user is not logged in
@@ -69,19 +69,19 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-    const quote = await QuoteCollection.addOne(userId, req.body.freetId, req.body.content, req.body.anon);
+    const quote = await QuoteCollection.addOne(userId, req.body.refId as string, req.body.content as string, req.body.anon as boolean);
 
     res.status(201).json({
       message: 'Your freet was created successfully.',
-      freet: util.constructQuoteResponse(quote)
+      quote: util.constructQuoteResponse(quote)
     });
   }
 );
 
 /**
- * Delete a freet
+ * Delete a quote
  *
- * @name DELETE /api/freets/:id
+ * @name DELETE /api/quotes/:id
  *
  * @return {string} - A success message
  * @throws {403} - If the user is not logged in or is not the author of
@@ -89,24 +89,24 @@ router.post(
  * @throws {404} - If the freetId is not valid
  */
 router.delete(
-  '/:freetId?',
+  '/:quoteId?',
   [
     userValidator.isUserLoggedIn,
     quoteValidator.isQuoteExists,
     quoteValidator.isValidQuoteModifier
   ],
   async (req: Request, res: Response) => {
-    await QuoteCollection.deleteOne(req.params.freetId);
+    await QuoteCollection.deleteOne(req.params.quoteId);
     res.status(200).json({
-      message: 'Your freet was deleted successfully.'
+      message: 'Your quote was deleted successfully.'
     });
   }
 );
 
 /**
- * Modify a freet
+ * Modify a quote
  *
- * @name PUT /api/freets/:id
+ * @name PUT /api/quotes/:id
  *
  * @param {string} content - the new content for the freet
  * @return {FreetResponse} - the updated freet
@@ -117,7 +117,7 @@ router.delete(
  * @throws {413} - If the freet content is more than 140 characters long
  */
 router.put(
-  '/:freetId?',
+  '/:quoteId?',
   [
     userValidator.isUserLoggedIn,
     quoteValidator.isQuoteExists,
@@ -128,7 +128,7 @@ router.put(
     const quote = await QuoteCollection.updateOne(req.params.quoteId, req.body);
     res.status(200).json({
       message: 'Your freet was updated successfully.',
-      freet: util.constructQuoteResponse(quote)
+      quote: util.constructQuoteResponse(quote)
     });
   }
 );

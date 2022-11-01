@@ -19,8 +19,9 @@ class QuoteCollection {
    * @return {Promise<HydratedDocument<Quote>>} - The newly created quote freet
    */
   static async addOne(authorId: Types.ObjectId | string, refId: Types.ObjectId | string, content: string, anon: boolean): Promise<HydratedDocument<Quote>> {
-    const freet = FreetCollection.findOne(refId);
-    const refContent = (await freet).content;
+    console.log(authorId, refId, content);
+    const freet = await FreetCollection.findOne(refId);
+    const refContent = freet.content;
     const date = new Date();
     const quote = new QuoteModel({
       authorId,
@@ -31,6 +32,7 @@ class QuoteCollection {
       dateModified: date,
       anon
     });
+    await UserCollection.addQuote(authorId, quote._id);
     await quote.save(); // Saves quote freet to MongoDB
     return quote;
   }
@@ -117,6 +119,8 @@ class QuoteCollection {
    * @return {Promise<Boolean>} - true if the quote freet has been deleted, false otherwise
    */
   static async deleteOne(quoteId: Types.ObjectId | string): Promise<boolean> {
+    const quoteTBD = await QuoteModel.findOne({_id: quoteId});
+    await UserCollection.deleteQuote(quoteTBD.authorId, quoteId);
     const quote = await QuoteModel.deleteOne({_id: quoteId});
     return quote !== null;
   }
@@ -128,6 +132,7 @@ class QuoteCollection {
    */
   static async deleteManyAuthor(authorId: Types.ObjectId | string): Promise<void> {
     await QuoteModel.deleteMany({authorId});
+    await UserCollection.deleteManyQuote(authorId);
   }
 
   /**
@@ -137,7 +142,12 @@ class QuoteCollection {
    */
   static async deleteManyRef(freetId: Types.ObjectId | string): Promise<void> {
     await QuoteModel.deleteMany({refId: freetId});
+    // Potential issue: delete from appropriate users.
+    // Might delete this function in general because I can't think of a use case
   }
 }
+
+// ADD: updateManyDeletedFreet? changes the refContent to 'This freet has been deleted.'
+// on all anon=false quote freets of said deleted freet
 
 export default QuoteCollection;

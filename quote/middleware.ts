@@ -3,15 +3,15 @@ import {Types} from 'mongoose';
 import QuoteCollection from './collection';
 
 /**
- * Checks if a quote freet with quoteFreetId is req.params exists
+ * Checks if a quote freet with quoteFreetId req.params.quoteId exists
  */
 const isQuoteExists = async (req: Request, res: Response, next: NextFunction) => {
-  const validFormat = Types.ObjectId.isValid(req.params.freetId);
-  const quote = validFormat ? await QuoteCollection.findOne(req.params.freetId) : '';
+  const validFormat = Types.ObjectId.isValid(req.params.quoteId);
+  const quote = validFormat ? await QuoteCollection.findOne(req.params.quoteId) : '';
   if (!quote) {
     res.status(404).json({
       error: {
-        freetNotFound: `Quote freet with ID ${req.params.quoteId} does not exist.`
+        quoteNotFound: `Quote freet with ID ${req.params.quoteId} does not exist.`
       }
     });
     return;

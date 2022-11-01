@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
 /**
@@ -44,14 +43,26 @@ function signOut(fields) {
     .catch(showResponse);
 }
 
-function viewAllHighlights(fields) {
-  fetch('/api/users/highlights')
+function followUser(fields) {
+  fetch(`/api/users/follow/${fields.username}`, {method: 'POST'})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function unfollowUser(fields) {
+  fetch(`/api/users/follow/${fields.username}`, {method: 'DELETE'})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function viewAllHighlightsByAuthor(fields) {
+  fetch(`/api/users/highlights?author=${fields.author}`)
     .then(showResponse)
     .catch(showResponse);
 }
 
 function createHighlight(fields) {
-  fetch('/api/users/highlights', {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+  fetch(`/api/users/highlights/${fields.id}`, {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
     .then(showResponse)
     .catch(showResponse);
 }

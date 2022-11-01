@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="/scripts/freet.js"></script>
   <script src="/scripts/user.js"></script>
+  <script src="/scripts/quote.js"></script>
+  <script src="/scripts/like.js"></script>
+  <script src="/scripts/fritform.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -19,6 +22,7 @@
     <section id="operations-container">
       <h2>Operations:</h2>
       <div class="scrollbox">
+
         <form id="create-user">
           <h3>Create User</h3>
           <div>
@@ -73,50 +77,27 @@
           <input type="submit" value="Sign out">
         </form>
 
+        <form id="follow-user">
+          <h3>Follow User</h3>
+          <div>
+            <label for="username">Username:</label>
+            <input id="username" name="username">
+          </div>
+          <input type="submit" value="Follow User">
+        </form>
+
+        <form id="unfollow-user">
+          <h3>Unfollow User</h3>
+          <div>
+            <label for="username">Username:</label>
+            <input id="username" name="username">
+          </div>
+          <input type="submit" value="Unfollow User">
+        </form>
+
         <form id="view-all-freets">
-            <h3>View All Freets</h3>
-            <input type="submit" value="View All Freets">
-        </form>
-
-        <form id="view-freet">
-          <h3>View Freet</h3>
-          <div>
-            <label for="id">ID:</label>
-            <input id="id" name="id">
-          </div>
+          <h3>View All Freets</h3>
           <input type="submit" value="View All Freets">
-        </form>
-
-        <form id="view-all-highlights">
-          <h3>View All Highlighted Freets by Author</h3>
-          <div>
-            <label for="author">Author:</label>
-            <input id="author" name="author">
-          </div>
-          <input type="submit" value="View All Highlighted Freets by Author">
-        </form>
-
-        <form id="create-fritform">
-          <h3>Create a FritForm</h3>
-          <div>
-            <label for="fields">Fields (separated by commas):</label>
-            <textarea id="fields" name="fields"></textarea>
-          </div>
-          <input type="submit" value="Create a Fritform">
-        </form>
-
-        <form id="edit-fritform">
-          <h3>Edit Your FritForm</h3>
-          <div>
-            <label for="fields">Fields (separated by commas):</label>
-            <textarea id="fields" name="fields"></textarea>
-          </div>
-          <input type="submit" value="Edit Your Fritform">
-        </form>
-
-        <form id="delete-fritform">
-          <h3>Delete Your FritForm</h3>
-          <input type="submit" value="Delete Your FritForm">
         </form>
 
         <form id="view-freets-by-author">
@@ -162,8 +143,8 @@
         <form id="create-quote">
           <h3>Create Quote Freet</h3>
           <div>
-            <label for="id">ID of Referenced Freet:</label>
-            <input id="id" name="id">
+            <label for="refId">ID of Referenced Freet:</label>
+            <input id="refId" name="refId">
           </div>
           <div>
             <label for="content">Content:</label>
@@ -234,6 +215,15 @@
           <input type="submit" value="Un-Highlight Post">
         </form>
 
+        <form id="view-all-highlights-by-author">
+          <h3>View All Highlighted Freets by Author</h3>
+          <div>
+            <label for="author">Author:</label>
+            <input id="author" name="author">
+          </div>
+          <input type="submit" value="View All Highlighted Freets by Author">
+        </form>
+
         <form id="create-like">
           <h3>Like Post</h3>
           <div>
@@ -259,6 +249,30 @@
           </div>
           <input type="submit" value="Unlike Post">
         </form>
+
+        <form id="create-fritform">
+          <h3>Create a FritForm</h3>
+          <div>
+            <label for="fields">Fields (separated by commas):</label>
+            <textarea id="fields" name="fields"></textarea>
+          </div>
+          <input type="submit" value="Create a Fritform">
+        </form>
+
+        <form id="edit-fritform">
+          <h3>Edit Your FritForm</h3>
+          <div>
+            <label for="fields">Fields (separated by commas):</label>
+            <textarea id="fields" name="fields"></textarea>
+          </div>
+          <input type="submit" value="Edit Your Fritform">
+        </form>
+
+        <form id="delete-fritform">
+          <h3>Delete Your FritForm</h3>
+          <input type="submit" value="Delete Your FritForm">
+        </form>
+
       </div>
     </section>
     <section>

@@ -1,7 +1,7 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {FritForm} from './model';
 import FritFormModel from './model';
-import UserCollection from 'user/collection';
+import UserCollection from '../user/collection';
 
 /**
  * This file contains a class with functionality to interact with FritForms stored
@@ -16,12 +16,12 @@ class FritFormCollection {
    * Add a new FritForm
    *
    * @param {string} userId - The userId of the account creating this FritForm
-   * @param {Set<string>} fields - The fields associated with this FritForm
+   * @param {Array<string>} fields - The fields associated with this FritForm
    * @return {Promise<HydratedDocument<FritForm>>} - The newly created FritForm
    */
-  static async addOne(userId: string, fields: Set<string>): Promise<HydratedDocument<FritForm>> {
+  static async addOne(userId: string, fields: string[]): Promise<HydratedDocument<FritForm>> {
     const user = await UserCollection.findOneByUserId(userId);
-    const fritForm = new FritFormModel(user._id, fields);
+    const fritForm = new FritFormModel({userId: user._id.toString(), fields});
     await fritForm.save(); // Saves user to MongoDB
     return fritForm;
   }
@@ -37,6 +37,16 @@ class FritFormCollection {
   }
 
   /**
+   * Find a FritForm by userId of the user who created it.
+   *
+   * @param {string} userId - The userId of the user who created the FritForm to find
+   * @return {Promise<HydratedDocument<FritForm>> | Promise<null>}
+   */
+  static async findOneByUserId(userId: Types.ObjectId | string): Promise<HydratedDocument<FritForm>> {
+    return FritFormModel.findOne({userId});
+  }
+
+  /**
    * Update FritForm's information
    *
    * @param {string} formId - The formId of the FritForm to update
@@ -47,7 +57,7 @@ class FritFormCollection {
     const fritForm = await FritFormModel.findOne({_id: formId});
 
     if (formDetails.fields) {
-      fritForm.fields = formDetails.fields as Set<string>;
+      fritForm.fields = (formDetails.fields as string).split(',');
     }
 
     await fritForm.save();
